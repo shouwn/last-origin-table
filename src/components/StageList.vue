@@ -17,7 +17,7 @@
 
 <script>
 import StageItem from '@/components/StageItem';
-import data from '@/assets/explorationData';
+import data from '@/assets/exploreData';
 import Stage from '@/models/Stage';
 
 const allStage = data.map(exploration => exploration.stage);

@@ -1,15 +1,17 @@
 <template>
   <div id="app">
     <StageList/>
+    <Table/>
   </div>
 </template>
 
 <script>
 import StageList from '@/components/StageList';
+import Table from "@/components/ExploreTable";
 
 export default {
   name: 'App',
-  components: {StageList}
+  components: {Table, StageList }
 }
 </script>
 
