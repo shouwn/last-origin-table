@@ -28,7 +28,9 @@ const groupedStages = allStage.reduce(function (rv, stage) {
   return rv;
 }, {});
 
-let selectedStage = new Stage();
+allStage[allStage.length - 1].selected = true;
+
+let selectedStage = allStage[allStage.length - 1];
 
 export default {
   components: {

@@ -1,17 +1,28 @@
 <template>
   <div id="app">
-    <StageList/>
-    <Table/>
+    <StageList @changeSelectedStage="selectStage"/>
+    <ExploreTable :selected-stage="selectedStage"/>
   </div>
 </template>
 
 <script>
 import StageList from '@/components/StageList';
-import Table from "@/components/ExploreTable";
+import ExploreTable from "@/components/ExploreTable";
+import Stage from "@/models/Stage";
 
 export default {
   name: 'App',
-  components: {Table, StageList }
+  components: { ExploreTable, StageList },
+  data () {
+    return {
+      selectedStage: new Stage(4, 8)
+    }
+  },
+  methods: {
+    selectStage: function (stage) {
+      this.selectedStage = stage;
+    }
+  }
 }
 </script>
 

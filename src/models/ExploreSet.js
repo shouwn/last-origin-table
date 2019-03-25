@@ -16,6 +16,10 @@ class ExploreSet {
     }, new Resource(0, 0, 0));
   }
 
+  get id () {
+    return this.stages.reduce((o, s) => { o += ('' + s.area + s.section); return o; }, '');
+  }
+
   get partPerHour () {
     return Math.round(this.resourcePerHour.part);
   }

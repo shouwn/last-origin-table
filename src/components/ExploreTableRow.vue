@@ -1,18 +1,18 @@
 <template>
-    <sui-table-row>
-      <sui-table-cell>
-        <sui-label
-          v-for="stage in exploreSet.stages"
-          :key="stage.id"
-        >
-          {{ stage.area + '-' + stage.section }}
-        </sui-label>
-      </sui-table-cell>
-      <sui-table-cell>{{ exploreSet.partPerHour }}</sui-table-cell>
-      <sui-table-cell>{{ exploreSet.nourishPerHour }}</sui-table-cell>
-      <sui-table-cell>{{ exploreSet.powerPerHour }}</sui-table-cell>
-      <sui-table-cell>{{ exploreSet.resourceSumPerHour }}</sui-table-cell>
-    </sui-table-row>
+  <sui-table-row @click="contentVisible = !contentVisible">
+    <sui-table-cell>
+      <sui-label
+        v-for="stage in exploreSet.stages"
+        :key="stage.id"
+      >
+        {{ stage.area + '-' + stage.section }}
+      </sui-label>
+    </sui-table-cell>
+    <sui-table-cell>{{ exploreSet.partPerHour }}</sui-table-cell>
+    <sui-table-cell>{{ exploreSet.nourishPerHour }}</sui-table-cell>
+    <sui-table-cell>{{ exploreSet.powerPerHour }}</sui-table-cell>
+    <sui-table-cell>{{ exploreSet.resourceSumPerHour }}</sui-table-cell>
+  </sui-table-row>
 </template>
 
 <script>
@@ -23,6 +23,11 @@ export default {
     exploreSet: {
       type: ExploreSet,
       required: true
+    }
+  },
+  data () {
+    return {
+      contentVisible: false
     }
   }
 }
