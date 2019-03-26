@@ -1,18 +1,22 @@
 <template>
   <div id="app">
-    <div class="ui label">test</div>
+    <StageList/>
   </div>
 </template>
 
 <script>
+import StageList from "@/components/StageList";
+
 export default {
   name: 'app',
-  data () {
-    return {
-    }
-  }
+  components: { StageList }
 }
 </script>
 
 <style>
+  #app {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+  }
 </style>
