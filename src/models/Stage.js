@@ -12,6 +12,10 @@ class Stage {
     return other && this.area === other.area
       && this.section === other.section;
   }
+
+  toString () {
+    return this.area + '-' + this.section;
+  }
 }
 
 export default Stage

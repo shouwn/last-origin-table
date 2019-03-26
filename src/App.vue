@@ -1,16 +1,25 @@
 <template>
   <div id="app">
-    <StageList/>
+    <StageList
+      :stages="stages"
+    />
   </div>
 </template>
 
 <script>
-import StageList from "@/components/StageList";
+  import StageList from '@/components/StageList';
+  import exploreData from '@/assets/exploreData';
 
-export default {
-  name: 'app',
-  components: { StageList }
-}
+  export default {
+    name: 'app',
+    components: { StageList },
+    data () {
+      return {
+        stages: exploreData.map(e => { return e.stage })
+          .filter(s => { return s.area === 1 })
+      }
+    }
+  }
 </script>
 
 <style>
