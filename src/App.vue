@@ -2,22 +2,47 @@
   <div id="app">
     <StageBoard
       :stages="stages"
+      @stagesSelectedChange="stagesSelectedChange"
     />
-    <ExploreSummary/>
+    <ExploreTable
+      :explores="selectedExplore"
+    />
   </div>
 </template>
 
 <script>
   import StageBoard from '@/components/StageBoard';
   import exploreData from '@/assets/exploreData';
-  import ExploreSummary from '@/components/ExploreSummary';
+  import ExploreTable from "@/components/ExploreTable";
 
   export default {
     name: 'app',
-    components: { StageBoard, ExploreSummary },
+    components: { ExploreTable, StageBoard },
     data () {
       return {
-        stages: exploreData.map(e => { return e.stage })
+        selectedExplore: [],
+        exploreData: exploreData
+      }
+    },
+    computed: {
+      stages: function () {
+        return exploreData.map(e => { return e.stage })
+      }
+    },
+    methods: {
+      stagesSelectedChange: function (stages, selected) {
+        let exploresByStages = this.exploreData.filter(function (explore) {
+          return !!stages.find(s => s.id === explore.stage.id);
+        });
+
+        if (selected) {
+          this.selectedExplore = this.selectedExplore.concat(exploresByStages);
+        } else {
+
+          this.selectedExplore = this.selectedExplore.filter(function (explore) {
+            return !exploresByStages.find(e => e.id === explore.id);
+          });
+        }
       }
     }
   }

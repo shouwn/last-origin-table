@@ -10,6 +10,10 @@ class Resource {
       && this.nourish === other.nourish
       && this.power === other.power;
   }
+
+  get amount () {
+    return this.part + this.nourish + this.power;
+  }
 }
 
 export default Resource

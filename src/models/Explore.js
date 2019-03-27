@@ -21,10 +21,15 @@ class Explore {
     let perHour = new Resource(0, 0, 0);
 
     for (let key in perHour) {
+      perHour[key] = this.resource[key];
       perHour[key] *= t;
     }
 
     return perHour;
+  }
+
+  get id () {
+    return this.stage.id;
   }
 }
 
