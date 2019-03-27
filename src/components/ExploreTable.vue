@@ -14,7 +14,7 @@
 </template>
 
 <script>
-  import { combination } from "@/utils/Functions";
+  import {combination} from "@/utils/Functions";
   import ExploreTableRow from "@/components/ExploreTableRow";
   import ExploreSummary from "@/components/ExploreSummary";
   import ExploreDetail from "@/components/ExploreDetail";
@@ -34,22 +34,25 @@
     },
     computed: {
       exploreCombination: function () {
-        let exploreCombination = combination(this.explores, 4);
-        return exploreCombination;
+        return combination(this.explores, 4);
       },
       sortedExploreCombination: function () {
         let adder = null;
+        let key = null;
 
         if (this.isRepeat) {
           adder = this.adderAmountPerHour;
+          key = 'amountPerHour';
         } else {
           adder = this.adderAmount;
+          key = 'amount';
         }
 
         let exploreCombination = this.exploreCombination.slice();
 
         exploreCombination.sort((arr1, arr2) => {
-          return arr2.reduce(adder, 0) - arr1.reduce(adder, 0);
+          return (arr2[key] = arr2[key] || arr2.reduce(adder, 0))
+            - (arr1[key] = arr1[key] || arr1.reduce(adder, 0));
         });
 
         return exploreCombination.slice(0, 10);
