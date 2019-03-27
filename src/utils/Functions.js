@@ -11,10 +11,11 @@ function _combination (array, index, size) {
 
   for (let i = index; i < array.length && array.length - i >= size; i++) {
     let currentElement = array[i];
-    let temp = _combination(array, i + 1, size - 1);
-    temp.forEach(arr => arr.unshift(currentElement));
 
-    result = result.concat(temp);
+    _combination(array, i + 1, size - 1).forEach(arr => {
+      arr.push(currentElement);
+      result.push(arr);
+    });
   }
 
   return result;

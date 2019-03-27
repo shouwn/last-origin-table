@@ -1,5 +1,5 @@
 <template>
-  <div class="ui segment">
+  <div id="exploreItem" class="ui segment">
     <div class="itemTop">
       <div class="stage ui blue large label">
         {{ stage.area + '-' + stage.section }}
@@ -48,6 +48,12 @@
 </script>
 
 <style scoped>
+  #exploreItem {
+    background-color: aliceblue;
+    margin-right: 1em;
+    margin-left: 1em;
+  }
+
   .itemTop {
     margin-bottom: 4em;
   }

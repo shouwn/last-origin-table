@@ -1,5 +1,5 @@
 <template>
-  <div class="ui four column doubling stackable grid container">
+  <div id="exploreDetail" class="ui four column stackable">
     <explore-item
       v-for="explore in explores"
       :key="explore.id"
@@ -23,5 +23,7 @@
 </script>
 
 <style scoped>
-
+  #exploreDetail {
+    text-align: left;
+  }
 </style>

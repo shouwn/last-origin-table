@@ -35,16 +35,9 @@
     },
     computed: {
       stages: function () {
-        let stage = this.explores.map(e => e.stage);
-        stage.sort((s1, s2) => {
-          let areaCompare = s1.area - s2.area;
-          if (areaCompare === 0) {
-            return s1.section - s2.section;
-          } else {
-            return areaCompare;
-          }
-        });
-        return this.explores.map(e => e.stage);
+        let stages = this.explores.map(e => e.stage);
+        stages.sort((s1, s2) => s1.compareTo(s2));
+        return stages;
       },
       totalResource: function () {
         return this.explores.map(e => e.resource)
@@ -75,7 +68,6 @@
 
 <style scoped>
   #exploreSummary {
-    border: 1px solid black;
     text-align: left;
   }
   .top {

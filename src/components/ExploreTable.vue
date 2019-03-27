@@ -1,9 +1,10 @@
 <template>
-  <div class="ui styled fluid accordion">
+  <div id="exploreTable" class="ui relaxed divided list">
     <explore-table-row
       v-for="exploreList in exploreCombination"
       :key="exploreList.reduce((id, e) => { id += e.id; return id }, '')"
       :explores="exploreList"
+      class="item"
     />
   </div>
 </template>
@@ -11,9 +12,11 @@
 <script>
   import { combination } from "@/utils/Functions";
   import ExploreTableRow from "@/components/ExploreTableRow";
+  import ExploreSummary from "@/components/ExploreSummary";
+  import ExploreDetail from "@/components/ExploreDetail";
 
   export default {
-    components: { ExploreTableRow },
+    components: { ExploreDetail, ExploreSummary, ExploreTableRow },
     props: {
       explores: {
         type: Array,
@@ -31,12 +34,18 @@
           return arr2.reduce(adder, 0) - arr1.reduce(adder, 0);
         });
 
-        return exploreCombination;
+        return exploreCombination.slice(0, 10);
       }
     }
   }
 </script>
 
 <style scoped>
+  #exploreTable {
+    width: 50vw;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 6em;
+  }
 
 </style>

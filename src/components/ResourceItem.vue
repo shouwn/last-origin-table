@@ -7,6 +7,12 @@
         {{ Math.round(value) }}
       </div>
     </div>
+    <div class="ui teal large label">
+      총합
+      <div class="detail">
+        {{ Math.round(resource.amount) }}
+      </div>
+    </div>
   </div>
 </template>
 

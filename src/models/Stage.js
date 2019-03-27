@@ -13,6 +13,15 @@ class Stage {
       && this.section === other.section;
   }
 
+  compareTo(other) {
+    let areaCompare = this.area - other.area;
+    if (areaCompare === 0) {
+      return this.section - other.section;
+    } else {
+      return areaCompare;
+    }
+  }
+
   toString () {
     return this.area + '-' + this.section;
   }
