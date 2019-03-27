@@ -5,16 +5,19 @@
       <label> 탐색 반복 </label>
     </div>
     <explore-table-row
-      v-for="exploreList in sortedExploreCombination"
+      v-for="exploreList in pagedExploreCombination"
       :key="exploreList.reduce((id, e) => { id += e.id; return id }, '')"
       :explores="exploreList"
       class="item"
     />
+    <button class="fluid ui twitter button" @click="page++">
+      더보기
+    </button>
   </div>
 </template>
 
 <script>
-  import {combination} from "@/utils/Functions";
+  import { combination } from "@/utils/Functions";
   import ExploreTableRow from "@/components/ExploreTableRow";
   import ExploreSummary from "@/components/ExploreSummary";
   import ExploreDetail from "@/components/ExploreDetail";
@@ -29,7 +32,8 @@
     },
     data () {
       return {
-        isRepeat: true
+        isRepeat: true,
+        page: 1
       }
     },
     computed: {
@@ -55,7 +59,12 @@
             - (arr1[key] = arr1[key] || arr1.reduce(adder, 0));
         });
 
-        return exploreCombination.slice(0, 10);
+        this.page = 1;
+
+        return exploreCombination;
+      },
+      pagedExploreCombination: function () {
+        return this.sortedExploreCombination.slice(0, this.page * 10);
       }
     },
     methods: {
