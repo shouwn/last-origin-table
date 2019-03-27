@@ -35,7 +35,16 @@ let exploration = [
   new Explore(4, 5, 120, 240, 100, 300),
   new Explore(4, 6, 300, 500, 800, 20),
   new Explore(4, 7, 150, 175, 575, 0),
-  new Explore(4, 8, 720, 500, 690, 1250)
+  new Explore(4, 8, 720, 500, 690, 1250),
+
+  new Explore(5, 1, 285, 700, 240, 480),
+  new Explore(5, 2, 45, 0, 0, 250),
+  new Explore(5, 3, 330, 200, 480, 840),
+  new Explore(5, 4, 180, 550, 0, 450),
+  new Explore(5, 5, 90, 0, 525, 0),
+  new Explore(5, 6, 150, 240, 240, 420),
+  new Explore(5, 7, 240, 160, 240, 680),
+  new Explore(5, 8, 540, 1200, 0, 1000)
 ];
 
 export default exploration
