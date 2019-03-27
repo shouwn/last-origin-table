@@ -1,53 +1,54 @@
 <template>
   <div id="stageBoard">
-    <div
-      v-for="(stages, area) in areas"
+    <StageList
+      v-for="area in areas"
       :key="area"
-    >
-      <StageListItem
-        v-for="stage in stages"
-        :key="stage.id"
-        :text="stage.area + '-' + stage.section"
-        :selected="stage.selected"
-        @selectedChange="selectedChange"
-      />
-      <stageListItem
-        :text="stages[0].area + '지역'"
-        :selected="false"
-      />
-    </div>
+      :stages="stageMap[area]"
+      @stagesSelectedChange="stagesSelectedChange"
+    />
   </div>
 </template>
 
 <script>
-  import StageListItem from '@/components/SelectableItem';
-  import exploreData from '@/assets/exploreData'
-
-  const stages = exploreData.map(e => e.stage);
-
-  for (let stage of stages) {
-
-  }
-
-  const areas = stages.reduce(function (rv, stage) {
-    stage.selected = false;
-    (rv[stage.area] = rv[stage.area] || []).push(stage);
-    return rv;
-  }, {});
+  import StageList from '@/components/StageList';
 
   export default {
     components: {
-      StageListItem
+      StageList
     },
-    data () {
-      return {
-        areas: areas
+    props: {
+      stages: {
+        type: Array,
+        required: true
+      }
+    },
+    computed: {
+      stageMap: function () {
+        return this.stages.reduce(function (rv, stage) {
+          (rv[stage.area] = rv[stage.area] || []).push(stage);
+          return rv;
+        }, {});
+      },
+      areas: function () {
+        let areas = this.stages.map(s => s.area);
+        areas.sort((a1, a2)=> {
+          if (typeof a1 === 'number' && typeof a2 === 'number') {
+            return a1 - a2;
+          } else {
+            return a1.localeCompare(a2);
+          }
+        });
+        return areas.reduce(function (arr, area) {
+          if (arr.indexOf(area) < 0) {
+            arr.push(area);
+          }
+          return arr;
+        }, []);
       }
     },
     methods: {
-      selectedChange: function (text, selected) {
-        console.log('test');
-        this.selected = !this.selected;
+      stagesSelectedChange: function (stages, selected) {
+        this.$emit('stagesSelectedChange', stages, selected);
       }
     }
   }

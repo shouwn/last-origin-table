@@ -67,7 +67,7 @@
           this.selectedCount--;
         }
 
-        this.$emit('stageSelectedChange', stageItem.stage, stageItem.selected);
+        this.$emit('stagesSelectedChange', [stageItem.stage], stageItem.selected);
       },
       lineSelectedChange: function () {
 

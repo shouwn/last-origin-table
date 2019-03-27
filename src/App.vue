@@ -1,22 +1,23 @@
 <template>
   <div id="app">
-    <StageList
+    <StageBoard
       :stages="stages"
     />
+    <ExploreSummary/>
   </div>
 </template>
 
 <script>
-  import StageList from '@/components/StageList';
+  import StageBoard from '@/components/StageBoard';
   import exploreData from '@/assets/exploreData';
+  import ExploreSummary from '@/components/ExploreSummary';
 
   export default {
     name: 'app',
-    components: { StageList },
+    components: { StageBoard, ExploreSummary },
     data () {
       return {
         stages: exploreData.map(e => { return e.stage })
-          .filter(s => { return s.area === 1 })
       }
     }
   }
