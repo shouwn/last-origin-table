@@ -13,7 +13,7 @@
       class="ui icon black basic huge button"
       @click="scrollToTop"
     >
-      <i class="angle up icon"></i>
+      TOP
     </button>
   </div>
 </template>
