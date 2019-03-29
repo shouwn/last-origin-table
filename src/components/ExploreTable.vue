@@ -20,7 +20,7 @@
         :explores="exploreList"
         class="item"
       />
-      <button class="fluid ui twitter button" @click="page++">
+      <button class="fluid ui twitter button" @click="page++" :disabled="!isAnyMore">
         더보기
       </button>
     </div>
@@ -61,7 +61,7 @@
           value: 4
         }],
         currentSort: null,
-
+        pageSize: 10
       }
     },
     computed: {
@@ -115,7 +115,10 @@
         return exploreCombination;
       },
       pagedExploreCombination: function () {
-        return this.sortedExploreCombination.slice(0, this.page * 10);
+        return this.sortedExploreCombination.slice(0, this.page * this.pageSize);
+      },
+      isAnyMore: function () {
+        return this.exploreCombination.length > this.page * this.pageSize;
       }
     },
     methods: {
