@@ -1,18 +1,29 @@
 <template>
   <div id="exploreTable" class="ui relaxed divided list">
-    <div id="repeatButton" class="ui toggle checkbox">
-      <input type="checkbox" name="public" v-model="isRepeat">
-      <label> 탐색 반복 </label>
+    <sui-container fluid class="selection">
+      <div class="repeat ui toggle checkbox">
+        <input type="checkbox" name="public" v-model="isRepeat">
+        <label> 탐색 반복 </label>
+      </div>
+      <sui-dropdown
+        placeholder="정렬 기준"
+        selection
+        :options="sorts"
+        v-model="currentSort"
+        class="sort"
+      />
+    </sui-container>
+    <div class="body">
+      <explore-table-row
+        v-for="exploreList in pagedExploreCombination"
+        :key="exploreList.reduce((id, e) => { id += e.id; return id }, '')"
+        :explores="exploreList"
+        class="item"
+      />
+      <button class="fluid ui twitter button" @click="page++">
+        더보기
+      </button>
     </div>
-    <explore-table-row
-      v-for="exploreList in pagedExploreCombination"
-      :key="exploreList.reduce((id, e) => { id += e.id; return id }, '')"
-      :explores="exploreList"
-      class="item"
-    />
-    <button class="fluid ui twitter button" @click="page++">
-      더보기
-    </button>
   </div>
 </template>
 
@@ -21,9 +32,11 @@
   import ExploreTableRow from "@/components/ExploreTableRow";
   import ExploreSummary from "@/components/ExploreSummary";
   import ExploreDetail from "@/components/ExploreDetail";
+  import SuiDropdown from "semantic-ui-vue/dist/commonjs/modules/Dropdown/Dropdown";
+  import SuiContainer from "semantic-ui-vue/dist/commonjs/elements/Container/Container";
 
   export default {
-    components: { ExploreDetail, ExploreSummary, ExploreTableRow },
+    components: {SuiContainer, SuiDropdown, ExploreDetail, ExploreSummary, ExploreTableRow },
     props: {
       explores: {
         type: Array,
@@ -33,30 +46,68 @@
     data () {
       return {
         isRepeat: true,
-        page: 1
+        page: 1,
+        sorts: [{
+          text: '자원합',
+          value: 1
+        }, {
+          text: '부품',
+          value: 2
+        }, {
+          text: '영양소',
+          value: 3
+        }, {
+          text: '전력',
+          value: 4
+        }],
+        currentSort: null,
+
       }
     },
     computed: {
       exploreCombination: function () {
         return combination(this.explores, 4);
       },
+      sortFunction: function () {
+        let sort = null;
+
+        switch (this.currentSort) {
+          case 1: sort = this.adderTotal; break;
+          case 2: sort = this.adderPart; break;
+          case 3: sort = this.adderNourish; break;
+          case 4: sort = this.adderPower; break;
+          default : sort = this.adderTotal; break;
+        }
+
+        return sort;
+      },
+      reducer: function () {
+        let acc = null;
+
+        if (this.isRepeat) {
+          acc = this.resourcePerHourAcc;
+        } else {
+          acc = this.resourceAcc;
+        }
+
+        return (value, explore) => {
+          return acc(value, explore, this.sortFunction);
+        };
+      },
       sortedExploreCombination: function () {
-        let adder = null;
         let key = null;
 
         if (this.isRepeat) {
-          adder = this.adderAmountPerHour;
-          key = 'amountPerHour';
+          key = 'resourcePerHour';
         } else {
-          adder = this.adderAmount;
-          key = 'amount';
+          key = 'resource';
         }
 
         let exploreCombination = this.exploreCombination.slice();
 
         exploreCombination.sort((arr1, arr2) => {
-          return (arr2[key] = arr2[key] || arr2.reduce(adder, 0))
-            - (arr1[key] = arr1[key] || arr1.reduce(adder, 0));
+          return (arr2[key + this.currentSort] = arr2[key + this.currentSort] || arr2.reduce(this.reducer, 0))
+            - (arr1[key + this.currentSort] = arr1[key + this.currentSort] || arr1.reduce(this.reducer, 0));
         });
 
         this.page = 1;
@@ -68,11 +119,23 @@
       }
     },
     methods: {
-      adderAmount: function (value, e) {
-        return value + e.resource.amount;
+      resourceAcc: function (value, explore, adder) {
+        return adder(value, explore.resource);
       },
-      adderAmountPerHour: function (value, e) {
-        return value + e.resourcePerHour.amount;
+      resourcePerHourAcc: function (value, explore, adder) {
+        return adder(value, explore.resourcePerHour);
+      },
+      adderPower: function (value, resource) {
+        return value + resource.power;
+      },
+      adderNourish: function (value, resource) {
+        return value + resource.nourish;
+      },
+      adderPart: function (value, resource) {
+        return value + resource.part;
+      },
+      adderTotal: function (value, resource) {
+        return value + resource.amount;
       }
     }
   }
@@ -86,7 +149,11 @@
     margin-left: auto;
     margin-top: 6em;
   }
-  #repeatButton {
+  .selection {
     margin-bottom: 1em;
+  }
+  .selection .repeat {
+  }
+  .selection .sort {
   }
 </style>
